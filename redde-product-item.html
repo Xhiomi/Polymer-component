@@ -1,0 +1,125 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-icons/av-icons.html">
+
+
+<dom-module id="redde-product-item">
+  <template>
+    <style>
+      :host {
+      }
+
+      .iconStyle {
+        width: 20px;
+        height: 20px;
+      }
+
+      .item-container {
+        /* display: flex; */
+        font-size: 20px;
+        justify-content: center;
+        border: 1px solid lightgray;
+        border-radius: 20px;
+        text-align: center;
+        margin: auto;
+        /* max-width: 20vw !important; */
+      }
+
+      .wraper {
+        display: inline-flex;
+        background: radial-gradient(ellipse at center, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 100%);
+        justify-content: center;
+        border: 1px solid lightgray;
+        border-radius: 15px;
+        text-align: center;
+        width: 100%;
+      }
+
+      .middle-container {
+        width: 30vw;
+      }
+
+      .title {
+        margin: 0;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .sub-title {
+        margin: 0;
+      }
+
+      .amount {
+        margin: 0;
+      }
+
+      .icons {
+
+      }
+
+    </style>
+
+    <div class="wraper">
+      <iron-icon class="icons" icon="icons:credit-card"></iron-icon>
+      <div class="middle-container">
+        <p class="title">{{itemTitle}}</p>
+        <p class="sub-title">{{itemDescription}}</p>
+      </div>
+      <p class="amount">{{itemAmount}}</p>
+    </div>
+
+
+  </template>
+
+  <script>
+    /**
+     * `redde-product-item`
+     * Component with icon, title, description and currency.
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class ReddeProductItem extends Polymer.Element {
+      static get is() { return 'redde-product-item'; }
+      static get properties() {
+        return {
+          iconName: {
+            type: String,
+            value: 'Icon name'
+          },
+          itemImageLocation: {
+            type: String,
+            value: '1',
+          },
+          itemTitle: {
+            type: String,
+            value: 'Title',
+          },
+          itemDescription: {
+            type: String,
+            value: 'Description',
+          },
+          character: {
+            type: String,
+            value: '$'
+          },
+          amount: {
+            type: Number,
+            value: '1'
+          },
+          itemAmount: {
+            type: Number,
+            computed: '_amountWithCharacter(character, amount)',
+          }
+        };
+      }
+      _amountWithCharacter(character, amount) {
+        let transactionAmount = `$ ${amount}`;
+        return transactionAmount;
+      }
+    }
+
+    window.customElements.define(ReddeProductItem.is, ReddeProductItem);
+  </script>
+</dom-module>
