@@ -6,66 +6,54 @@
 <dom-module id="redde-product-item">
   <template>
     <style>
-      :host {
+      .wrapper {
+        padding: 15px 0;
+        display: flex;
+        border-bottom: 1px #eeeeee solid;
       }
 
-      .iconStyle {
-        width: 20px;
-        height: 20px;
-      }
-
-      .item-container {
-        /* display: flex; */
-        font-size: 20px;
-        justify-content: center;
-        border: 1px solid lightgray;
-        border-radius: 20px;
-        text-align: center;
-        margin: auto;
-        /* max-width: 20vw !important; */
-      }
-
-      .wraper {
-        display: inline-flex;
-        background: radial-gradient(ellipse at center, rgba(254,254,254,1) 0%, rgba(209,209,209,1) 100%);
-        justify-content: center;
-        border: 1px solid lightgray;
-        border-radius: 15px;
-        text-align: center;
-        width: 100%;
-      }
-
-      .middle-container {
-        width: 30vw;
-      }
-
-      .title {
+      h2 {
         margin: 0;
-        font-size: 20px;
-        font-weight: bold;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .icon-container {
+        padding-right: 15px;
+      }
+
+      .account-detail {
+        display: flex;
+        width: -webkit-fill-available;
+        justify-content: space-between;
       }
 
       .sub-title {
-        margin: 0;
+        color: #666666;
       }
-
-      .amount {
-        margin: 0;
-      }
-
-      .icons {
-
-      }
-
     </style>
 
-    <div class="wraper">
-      <iron-icon class="icons" icon="icons:credit-card"></iron-icon>
-      <div class="middle-container">
-        <p class="title">{{itemTitle}}</p>
-        <p class="sub-title">{{itemDescription}}</p>
+    <div class="wrapper" on-click="onSelected">
+      <dom-if if="[[icon]]">
+        <template>
+          <div class="icon-container">
+            <iron-icon class="icons" icon="[[icon]]" style="width: 40px; height: 40px"></iron-icon>
+          </div>
+        </template>
+      </dom-if>
+      
+      <div class="account-detail">
+        <div class="middle-container">
+          <h2 class="title">[[itemTitle]]</h2>
+          <p class="sub-title">[[itemDescription]]</p>
+        </div>
+      
+        <div class="amount-container">
+          <p class="amount">[[itemAmount]]</p>
+        </div>
       </div>
-      <p class="amount">{{itemAmount}}</p>
     </div>
 
 
@@ -84,39 +72,18 @@
       static get is() { return 'redde-product-item'; }
       static get properties() {
         return {
-          iconName: {
-            type: String,
-            value: 'Icon name'
-          },
-          itemImageLocation: {
-            type: String,
-            value: '1',
-          },
-          itemTitle: {
-            type: String,
-            value: 'Title',
-          },
-          itemDescription: {
-            type: String,
-            value: 'Description',
-          },
-          character: {
-            type: String,
-            value: '$'
-          },
-          amount: {
-            type: Number,
-            value: '1'
-          },
-          itemAmount: {
-            type: Number,
-            computed: '_amountWithCharacter(character, amount)',
-          }
+          icon: String,
+          itemTitle: String,
+          itemDescription: String,
+          amount: String
         };
       }
-      _amountWithCharacter(character, amount) {
-        let transactionAmount = `$ ${amount}`;
-        return transactionAmount;
+
+      onSelected(e) {
+        console.log('model', e);
+        this.dispatchEvent(new CustomEvent('item-was-selected', {
+          detail: e.model
+        }));
       }
     }
 
